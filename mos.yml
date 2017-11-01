@@ -1,0 +1,65 @@
+author: Niel Swart
+description: Sonoff single channel switch running Mongoose OS firmware
+arch: esp8266
+version: 1.0
+libs_version: ${mos.version}
+modules_version: ${mos.version}
+mongoose_os_version: ${mos.version}
+
+# Optional. List of tags for online search.
+tags:
+  - c
+  - js
+  - mqtt
+
+# List of files / directories with C sources. No slashes at the end of dir names.
+sources:
+  - src
+
+# List of dirs. Files from these dirs will be copied to the device filesystem
+filesystem:
+  - fs
+
+# Custom configuration entries, settable via "device configuration"
+# Below is a custom firmware configuration example.
+# Uncomment and modify according to your needs:
+
+config_schema:
+  - ["mqtt.enable", true]
+  - ["pins", "o", {title: "Pins layout"}]
+  - ["pins.led", "i", 13, {title: "LED GPIO pin"}]
+  - ["pins.button", "i", 0, {title: "Button GPIO pin"}]
+  - ["pins.relay", "i", 12, {title: "Relay GPIO pin"}]
+  - ["debug.factory_reset_gpio", 0]
+
+# These settings get compiled into the C structure, and can be accessed
+# from the C code this way:
+#
+# Also, in this config_schema section, you can override existing
+# settings that has been created by other libraries. For example, debug log
+# level is 2 by default. For this firmware we can override it to 3:
+#
+# config_schema:
+#  - ["debug.level", 3]
+
+# List of libraries used by this app, in order of initialisation
+libs:
+  - origin: https://github.com/mongoose-os-libs/ca-bundle
+  - origin: https://github.com/mongoose-os-libs/http-server
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-fs
+  - origin: https://github.com/mongoose-os-libs/rpc-service-ota
+  - origin: https://github.com/mongoose-os-libs/rpc-uart
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/mqtt
+  - origin: https://github.com/mongoose-os-libs/rpc-mqtt
+  - origin: https://github.com/mongoose-os-libs/mjs
+
+build_vars:
+  # sonoff basic has 1MBytes flash only
+  FLASH_SIZE: 1048576
+
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2017-05-18
+
+
