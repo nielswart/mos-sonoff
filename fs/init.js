@@ -3,6 +3,7 @@ load('api_gpio.js');
 load('api_sys.js');
 load('api_timer.js');
 load('api_rpc.js');
+load('api_mqtt.js');
 
 let led = Cfg.get('pins.led');
 let button = Cfg.get('pins.button');
@@ -13,8 +14,6 @@ print('LED GPIO:', led, 'button GPIO:', button, "Relay:", relay);
 GPIO.set_mode(relay, GPIO.MODE_OUTPUT);
 GPIO.write(relay, 0);
 let state = { "relay": 0 };  // device state
-
-MQTT.pub(Cfg.get('device.id') + '/startup', JSON.stringify(state));
 
 let getInfo = function() {
   return JSON.stringify({
@@ -49,6 +48,15 @@ GPIO.set_mode(led, GPIO.MODE_OUTPUT);
 Timer.set(5000 /* 5 sec */, true /* repeat */, function() {
   let value = GPIO.toggle(led);
   print(value ? 'Tick' : 'Tock', 'uptime:', Sys.uptime(), getInfo());
+}, null);
+
+Timer.set(10000 /* 10 sec */, false /* repeat */, function() {
+  let dev_id = Cfg.get('device.id');
+  let topic = dev_id + '/startup';
+  let msg = JSON.stringify({ id: dev_id, 
+    state: state});
+  MQTT.pub(topic, msg);
+  print(msg);
 }, null);
 
 // Toggle relay on button press. Button is wired to GPIO pin 0

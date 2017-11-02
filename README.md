@@ -1,20 +1,28 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Mongoose OS running on a Sonoff (ESP-1) single channel wifi switch
 
 # Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+To configure the device with the correct wifi and MQTT broker credentials, add the correct conf#.json file where # is a number from 1-9 (see Mongoose OS configuration for more details) in the fs directory. 
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+You can also provide a device id in the configuration.  See the sample config file for an example
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://www.visualstudio.com/en-us/docs/git/create-a-readme). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+Build with
+```mos build --clean```
+
+To put the Sonoff in flash mode, hold in the push button before powering and the release after it has started.
+
+Now flash with:
+```mos flash```
+
+A web UI to configure the settings is in the works.
+
+# The software
+
+There is three RPC handlers:
+
+- SwitchOn
+- SwitchOff
+- SwitchToggle
+
+that do what the name implies.  To call the RPC function, send a message on the topic:

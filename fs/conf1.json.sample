@@ -1,0 +1,14 @@
+{
+    "device": {
+        "id": "ABCDEF"
+    },
+    "wifi": {
+        "ap": {
+            "ssid": "Sonoff_ABCDEF",
+            "pass": ""
+        }
+    },
+    "mqtt": {
+        "server": "192.168.1.1:1883"
+    }
+}
